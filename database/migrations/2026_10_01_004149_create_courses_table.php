@@ -14,15 +14,22 @@ class CreateCoursesTable extends Migration
     public function up()
     {
         Schema::create('courses', function (Blueprint $table) {
-            $table->id('id', 36)->primary();
+            $table->increments('id');
+            $table->string('course_key', 50);
             $table->string('title');
-            $table->string('curscover');
-            $table->longText('content');
+            $table->string('cover');
+            $table->text('content');
 
             $table->unsignedBigInteger('material_id');
             $table->foreign('material_id')
                 ->references('id')
                 ->on('materials')
+                ->onDelete('cascade');
+
+            $table->unsignedInteger('robotics_kit_id');
+            $table->foreign('robotics_kit_id')
+                ->references('robotics_kit_id')
+                ->on('robotics_kits')
                 ->onDelete('cascade');
         });
     }

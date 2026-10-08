@@ -14,16 +14,16 @@ class CreateCourseGroupTable extends Migration
     public function up()
     {
         Schema::create('course_group', function (Blueprint $table) {
-            $table->string('courses_id', 36);
-            $table->foreign('courses_id')
+            $table->unsignedInteger('group_id');
+            $table->foreign('group_id')
+                ->references('group_id')
+                ->on('groups')
+                ->onDelete('cascade');
+
+            $table->unsignedInteger('course_id');
+            $table->foreign('course_id')
                 ->references('id')
                 ->on('courses')
-                ->onDelete('cascade');
-                
-            $table->unsignedBigInteger('group_id');
-            $table->foreign('group_id')
-                ->references('id')
-                ->on('groups')
                 ->onDelete('cascade');
         });
     }

@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -16,8 +15,15 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'role', 'group_id',
     ];
+
+    /**
+     * The table migration does not define created_at or updated_at columns.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 
     /**
      * The attributes that should be hidden for arrays.
@@ -25,19 +31,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
-    public function group() { 
-        return $this->belongsTo(Group::class); 
-    } 
+    public function group()
+    {
+        return $this->belongsTo(Group::class, 'group_id', 'group_id');
+    }
 }
